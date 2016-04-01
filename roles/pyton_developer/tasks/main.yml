@@ -1,0 +1,27 @@
+---
+ - name: update
+   apt: update_cache=yes
+ - name: install
+   apt: name=python-dev state=present
+ - name: install
+   apt: name=uwsgi-plugin-python state=present
+ - name: install
+   apt: name=python-virtualenv state=present
+ - name: install
+   apt: name=python-pip state=present
+
+ - name: Install Flask
+   pip: name=Flask
+   pip: name=uwsgi
+ - name: create group
+   group: name={{ nameuser }} state=present
+ - name: create directory
+   file: path=/home/{{ nameuser }} state=directory mode=0755
+ - name: create user
+   user: name={{ nameuser }} shell=/bin/bash home=/home/{{ nameuser }}  groups=sudo,{{ nameuser }} password={{ password }} generate_ssh_key=yes ssh_key_file=.ssh/id_rsa
+ 
+ - name: ssh
+   shell: cp /home/vagrant/.ssh/authorized_keys /home/{{ nameuser }}/.ssh/ && chown {{ nameuser }}:{{ nameuser }} /home/{{ nameuser }}/.ssh/authorized_keys && chmod 600 /home/{{ nameuser }}/.ssh/authorized_keys
+
+
+ 

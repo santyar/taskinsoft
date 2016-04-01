@@ -1,0 +1,11 @@
+---
+# nginx 
+
+ hostname: app-serv
+# ip_add: 
+ ports: 3031
+# developer
+ nameuser: developer
+ password: qwerty
+
+              
