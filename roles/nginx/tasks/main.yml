@@ -29,8 +29,18 @@
    apt: name=python-dev state=present
  - name: install
    pip:  name=uwsgi
+ - name: install
+   pip: name=Flask
  - name: copy 
    copy: src=py_app.py  dest=/var/www/{{ hostname }}/ owner=root mode=0644
+
+ - name: copy  
+   lineinfile: dest=/etc/hosts insertafter="^127.0.0.1" line="127.0.0.1\tapp-serv"
+
+- name: restart nginx
+  service: name=nginx state=restarted
  
  - name: run
-   shell: rm -rf /etc/nginx/sites-available/default && uwsgi --socket 127.0.0.1:3031 --wsgi-files /var/www/{{ hostname }}/*py --callable app #--touch-reload /var/www/{{ hostname }}/*.py &  
+   shell: uwsgi --socket 127.0.0.1:3031 --wsgi-file /var/www/{{ hostname }}/*py --callable app & 
+
+ 
