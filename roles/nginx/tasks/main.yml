@@ -21,4 +21,16 @@
  - name: upstart nginx
    shell: update-rc.d nginx defaults
 
-  
+ - name: INstall uwsgi
+   apt: name=python-pip state=present
+ - name: install
+   apt: name=uwsgi-plugin-python state=present
+ - name: install
+   apt: name=python-dev state=present
+ - name: install
+   pip:  name=uwsgi
+ - name: copy 
+   copy: src=py_app.py  dest=/var/www/{{ hostname }}/ owner=root mode=0644
+ 
+ - name: run
+   shell: rm -rf /etc/nginx/sites-available/default && uwsgi --socket 127.0.0.1:3031 --wsgi-files /var/www/{{ hostname }}/*py --callable app #--touch-reload /var/www/{{ hostname }}/*.py &  
