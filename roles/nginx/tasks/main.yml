@@ -41,6 +41,6 @@
   service: name=nginx state=restarted
  
  - name: run
-   shell: uwsgi --socket 127.0.0.1:3031 --wsgi-file /var/www/{{ hostname }}/*py --callable app & 
+   shell: uwsgi --socket 127.0.0.1:3031 --wsgi-filie /var/www/{{ hostname }}/*py --callable app --touch-reload var/www/{{ hostname }}/py_app.py & 
 
  
